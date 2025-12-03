@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TempMail Pro • Mail Sementara Terbaik 2025</title>
+  <link rel="preconnect" href="https://www.1secmail.com">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✉</text></svg>">
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card: #161b22;
+      --text: #c9d1d9;
+      --text-muted: #8b949e;
+      --border: #30363d;
+      --primary: #58a6ff;
+      --green: #238636;
+      --red: #da3633;
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 860px;
+      background: var(--card);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+
+    header {
+      background: linear-gradient(135deg, #1f6feb, #238636);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    h1 { font-size: 2.2rem; font-weight: 600; margin-bottom: .5rem; }
+    .tagline { opacity: 0.9; font-size: 1.1rem; }
+
+    .mail-box {
+      padding: 2rem;
+    }
+
+    .email-display {
+      background: var(--bg);
+      padding: 1.2rem 1.5rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      font-size: 1.4rem;
+      font-weight: 500;
+      word-break: break-all;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      transition: all 0.2s;
+    }
+
+    .email-display:hover { border-color: var(--primary); }
+
+    .copy-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .copy-btn:hover { background: #1f6feb; transform: translateY(-2px); }
+
+    .refresh-btn {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      padding: 0.8rem 1.8rem;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-right: 1rem;
+    }
+
+    .refresh-btn:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .inbox {
+      min-height: 300px;
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+
+    .mail-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .mail-item:hover {
+      border-color: var(--primary);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(88,166,255,0.15);
+    }
+
+    .mail-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.8rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .from { font-weight: 600; color: var(--primary); }
+    .subject { font-size: 1.1rem; font-weight: 600; }
+    .date { color: var(--text-muted); font-size: 0.9rem; }
+
+    .body-preview {
+      color: var(--text-muted);
+      margin-top: 0.8rem;
+      line-height: 1.5;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-muted);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(8px);
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+
+    .modal-content {
+      background: var(--card);
+      width: 90%;
+      max-width: 800px;
+      max-height: 90vh;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .modal-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-body {
+      padding: 2rem;
+      overflow-y: auto;
+      max-height: 70vh;
+    }
+
+    .close-modal {
+      background: none;
+      border: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 1.8rem; }
+      .email-display { font-size: 1.1rem; flex-direction: column; text-align: center; gap: 1rem; }
+      .actions { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>TempMail Pro</h1>
+    <p class="tagline">Mail sementara anonim • Tanpa registrasi • Update realtime 2025</p>
+  </header>
+
+  <div class="mail-box">
+    <div class="email-display" id="emailDisplay">
+      <span id="emailText">Klik "Buat Email Baru" untuk memulai</span>
+      <button class="copy-btn" id="copyBtn" style="display:none;">Copy</button>
+    </div>
+
+    <div class="actions">
+      <button class="refresh-btn" id="newEmail">Buat Email Baru</button>
+      <button class="refresh-btn" id="refreshInbox">Refresh Inbox</button>
+    </div>
+
+    <div id="inbox" class="inbox">
+      <div class="loading">Menunggu email baru...</div>
+    </div>
+  </div>
+
+  <footer>
+    TempMail Pro • 100% Gratis • Dibuat dengan ❤️ oleh progamer sejati
+  </footer>
+</div>
+
+<!-- Modal untuk baca email lengkap -->
+<div class="modal" id="mailModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 id="modalSubject">Subject</h2>
+      <button class="close-modal">&times;</button>
+    </div>
+    <div class="modal-body" id="modalBody">
+      Loading...
+    </div>
+  </div>
+</div>
+
+<script>
+  const API_DOMAIN = "https://www.1secmail.com/api/v1/";
+
+  let currentLogin = "";
+  let currentDomain = "";
+  let checkInterval;
+
+  // Generate random email
+  async function generateEmail() {
+    const res = await fetch(API_DOMAIN + "?action=genRandomMailbox&count=1");
+    const data = await res.json();
+    const email = data[0];
+    [currentLogin, currentDomain] = email.split("@");
+
+    document.getElementById("emailText").textContent = email;
+    document.getElementById("copyBtn").style.display = "inline-block";
+    document.getElementById("inbox").innerHTML = '<div class="loading">Menunggu email masuk...</div>';
+    
+    // Auto refresh setiap 7 detik
+    clearInterval(checkInterval);
+    checkInterval = setInterval(loadInbox, 7000);
+    loadInbox();
+  }
+
+  // Copy email ke clipboard
+  document.getElementById("copyBtn").addEventListener("click", async () => {
+    const email = document.getElementById("emailText").textContent;
+    await navigator.clipboard.writeText(email);
+    const btn = document.getElementById("copyBtn");
+    btn.textContent = "Copied!";
+    setTimeout(() => btn.textContent = "Copy", 2000);
+  });
+
+  // Load inbox
+  async function loadInbox() {
+    if (!currentLogin) return;
+
+    const res = await fetch(`\( {API_DOMAIN}?action=getMessages&login= \){currentLogin}&domain=${currentDomain}`);
+    const messages = await res.json();
+
+    const inbox = document.getElementById("inbox");
+    
+    if (messages.length === 0) {
+      inbox.innerHTML = '<div class="loading">Inbox kosong. Kirim email ke alamat di atas untuk tes.</div>';
+      return;
+    }
+
+    inbox.innerHTML = "";
+    messages.reverse().forEach(msg => {
+      const div = document.createElement("div");
+      div.className = "mail-item";
+      div.innerHTML = `
+        <div class="mail-header">
+          <div class="from">${msg.from}</div>
+          <div class="date">${new Date(msg.date).toLocaleString('id-ID')}</div>
+        </div>
+        <div class="subject">${msg.subject || '(tanpa subjek)'}</div>
+        <div class="body-preview">${msg.textBody ? msg.textBody.substring(0, 150) + "..." : "Attachment atau HTML only"}</div>
+      `;
+      div.onclick = () => openMail(msg.id);
+      inbox.appendChild(div);
+    });
+  }
+
+  // Buka email lengkap
+  async function openMail(id) {
+    const res = await fetch(`\( {API_DOMAIN}?action=readMessage&login= \){currentLogin}&domain=\( {currentDomain}&id= \){id}`);
+    const mail = await res.json();
+
+    document.getElementById("modalSubject").textContent = mail.subject || '(tanpa subjek)';
+    const body = mail.htmlBody || mail.textBody || '<i>Tidak ada isi teks</i>';
+    
+    document.getElementById("modalBody").innerHTML = body;
+    document.getElementById("mailModal").style.display = "flex";
+  }
+
+  // Event listener
+  document.getElementById("newEmail").addEventListener("click", generateEmail);
+  document.getElementById("refreshInbox").addEventListener("click", loadInbox);
+
+  // Close modal
+  document.querySelector(".close-modal").addEventListener("click", () => {
+    document.getElementById("mailModal").style.display = "none";
+  });
+
+  window.addEventListener("click", (e) => {
+    if (e.target === document.getElementById("mailModal")) {
+      document.getElementById("mailModal").style.display = "none";
+    }
+  });
+
+  // Generate email pertama saat halaman dibuka
+  window.onload = generateEmail;
+</script>
+
+</body>
+  </html>
