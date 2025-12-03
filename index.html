@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShadowMail Pro | Anonymous Temporary Email</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0fce7c;
+            --accent-dark: #0aa864;
+            --danger: #ff4757;
+            --light: #f1f2f6;
+            --dark: #2f3542;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --glass: rgba(255, 255, 255, 0.08);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            --border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: var(--primary);
+            color: var(--light);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(22, 33, 62, 0.8) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(15, 206, 124, 0.1) 0%, transparent 20%);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(22, 33, 62, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(15, 206, 124, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--light);
+            border: var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--glass);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #b2becd;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        /* Main Dashboard */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Email Generation */
+        .email-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            font-size: 1.3rem;
+            color: var(--light);
+        }
+
+        .card-title i {
+            color: var(--accent);
+        }
+
+        .email-generator {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .email-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: var(--border);
+            border-radius: 8px;
+            padding: 15px 20px;
+            color: var(--light);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .email-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(15, 206, 124, 0.1);
+        }
+
+        .email-display {
+            background: rgba(22, 33, 62, 0.6);
+            border: var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .email-address {
+            font-family: 'Courier New', monospace;
+            font-size: 1.3rem;
+            color: var(--accent);
+            word-break: break-all;
+            margin-bottom: 15px;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--secondary);
+            border: var(--border);
+            color: var(--light);
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        /* Inbox */
+        .inbox {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .inbox-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .refresh-btn {
+            background: transparent;
+            border: var(--border);
+            color: var(--light);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .refresh-btn:hover {
+            background: var(--accent);
+            color: var(--primary);
+            transform: rotate(180deg);
+        }
+
+        .email-list {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .email-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .email-list::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .email-list::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
+
+        .email-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .email-item:hover {
+            background: rgba(255, 255, 255, 0.07);
+            transform: translateX(5px);
+        }
+
+        .email-item.unread {
+            border-left: 4px solid var(--accent);
+        }
+
+        .email-sender {
+            font-weight: 600;
+            color: var(--light);
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .email-subject {
+            color: #b2becd;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+
+        .email-preview {
+            color: #8895a7;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .email-time {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #8895a7;
+            font-size: 0.85rem;
+        }
+
+        /* Email Viewer */
+        .email-viewer {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .email-viewer-header {
+            border-bottom: var(--border);
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+
+        .email-viewer-subject {
+            font-size: 1.4rem;
+            color: var(--light);
+            margin-bottom: 15px;
+        }
+
+        .email-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #b2becd;
+            font-size: 0.95rem;
+        }
+
+        .email-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .email-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .stat-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #b2becd;
+            font-size: 0.95rem;
+        }
+
+        /* Features */
+        .features {
+            margin: 80px 0;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: var(--border);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.8rem;
+            color: var(--light);
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: var(--light);
+        }
+
+        .feature-card p {
+            color: #b2becd;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--secondary);
+            border-top: var(--border);
+            padding: 60px 0 30px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            color: var(--light);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #b2becd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: var(--border);
+            color: #8895a7;
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(15, 206, 124, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(15, 206, 124, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(15, 206, 124, 0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .email-generator {
+                flex-direction: column;
+            }
+            
+            .email-generator .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="nav-container">
+                <div class="logo">
+                    <i class="fas fa-user-secret"></i>
+                    ShadowMail
+                </div>
+                <div class="nav-links">
+                    <a href="#" class="nav-link"><i class="fas fa-home"></i> Home</a>
+                    <a href="#features" class="nav-link"><i class="fas fa-star"></i> Features</a>
+                    <a href="#" class="nav-link"><i class="fas fa-shield-alt"></i> Security</a>
+                    <a href="#" class="nav-link"><i class="fas fa-question-circle"></i> FAQ</a>
+                    <button class="btn btn-secondary"><i class="fas fa-user"></i> Login</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Anonymous Temporary Email Service</h1>
+            <p>Protect your privacy with our advanced disposable email system. No registration required. Complete anonymity guaranteed.</p>
+            <div class="email-generator">
+                <input type="text" class="email-input" id="usernameInput" placeholder="Choose a username (optional)" value="shadowuser">
+                <select class="email-input" id="domainSelect" style="width: 200px;">
+                    <option value="@shadowmail.com">@shadowmail.com</option>
+                    <option value="@anonymail.net">@anonymail.net</option>
+                    <option value="@tempinbox.org">@tempinbox.org</option>
+                    <option value="@ghostmail.io">@ghostmail.io</option>
+                    <option value="@securebox.dev">@securebox.dev</option>
+                </select>
+                <button class="btn btn-primary" id="generateBtn">
+                    <i class="fas fa-bolt"></i> Generate Email
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Dashboard -->
+    <div class="container">
+        <div class="dashboard">
+            <!-- Left Column: Inbox -->
+            <div class="inbox fade-in">
+                <div class="inbox-header">
+                    <div class="card-title">
+                        <i class="fas fa-inbox"></i>
+                        Inbox
+                    </div>
+                    <button class="refresh-btn" id="refreshBtn">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+                <div class="email-list" id="emailList">
+                    <!-- Emails will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Right Column: Email Viewer -->
+            <div class="email-viewer fade-in">
+                <div class="email-viewer-header">
+                    <h2 class="email-viewer-subject" id="emailSubject">Welcome to ShadowMail</h2>
+                    <div class="email-meta">
+                        <span id="emailFrom">From: support@shadowmail.com</span>
+                        <span id="emailDate">Today, 10:30 AM</span>
+                    </div>
+                </div>
+                <div class="email-content" id="emailContent">
+                    Welcome to ShadowMail Pro! Your temporary email address has been successfully created.
+
+                    FEATURES:
+                    • No registration required
+                    • Complete anonymity
+                    • Self-destructing emails
+                    • Encrypted storage
+                    • Auto-delete after 24 hours
+                    • Spam protection
+
+                    Your email: <span id="currentEmail" style="color: #0fce7c; font-weight: bold;">shadowuser@shadowmail.com</span>
+
+                    This email will self-destruct in 24 hours. All attachments are scanned for malware.
+
+                    Need help? Our support is available 24/7.
+                </div>
+                <div class="email-actions">
+                    <button class="btn btn-secondary"><i class="fas fa-reply"></i> Reply</button>
+                    <button class="btn btn-secondary"><i class="fas fa-trash"></i> Delete</button>
+                    <button class="btn btn-primary"><i class="fas fa-download"></i> Download</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Generated Email Display -->
+        <div class="email-card fade-in">
+            <div class="card-title">
+                <i class="fas fa-envelope"></i>
+                Your Temporary Email Address
+            </div>
+            <div class="email-display">
+                 <div class="email-address" id="generatedEmail">shadowuser@shadowmail.com</div>
+                <div style="color: #b2becd; margin-bottom: 15px;">
+                    <i class="fas fa-clock"></i> Expires in: <span id="expiryTimer">24:00:00</span>
+                </div>
+                <button class="copy-btn" id="copyBtn">
+                    <i class="fas fa-copy"></i> Copy Email
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card pulse">
+                <div class="stat-number" id="emailCount">0</div>
+                <div class="stat-label">Emails Received</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="activeTime">24h</div>
+                <div class="stat-label">Active Time</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Anonymity</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">0</div>
+                <div class="stat-label">Spam Blocked</div>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <section class="features" id="features">
+            <h2>Advanced Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h3>Complete Anonymity</h3>
+                    <p>No personal information required. Your identity remains completely hidden from senders.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Auto-Destruct</h3>
+                    <p>Emails automatically delete after 24 hours. No traces left behind.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Military Encryption</h3>
+                    <p>AES-256 encryption for all emails and attachments. Maximum security guaranteed.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI Spam Filter</h3>
+                    <p>Advanced AI detects and blocks spam, phishing, and malicious content automatically.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-paperclip"></i>
+                    </div>
+                    <h3>Attachment Support</h3>
+                    <p>Receive files up to 25MB. All attachments are scanned for viruses.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Mobile Ready</h3>
+                    <p>Fully responsive design works perfectly on all devices and screen sizes.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>ShadowMail</h3>
+                    <p style="color: #b2becd; line-height: 1.6;">The world's most advanced temporary email service. Privacy by design.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Generate Email</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Inbox</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Security</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Terms of Service</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Cookie Policy</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> DMCA</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Connect</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fab fa-github"></i> GitHub</a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                        <li><a href="#"><i class="fab fa-telegram"></i> Telegram</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2024 ShadowMail Pro. All rights reserved. | This is a demonstration interface.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample email data
+        const sampleEmails = [
+            {
+                id: 1,
+                from: "GitHub Security",
+                fromEmail: "security@github.com",
+                subject: "New login from Chrome on Windows",
+                preview: "We noticed a new login to your GitHub account from Chrome on Windows",
+                time: "10:15 AM",
+                date: "Today",
+                content: `Dear User,
+
+A new sign-in to your GitHub account was detected:
+
+• Time: Today, 10:15 AM
+• Browser: Chrome 120.0
+• OS: Windows 10
+• Location: Singapore (IP: 203.0.113.1)
+
+If this was you, you can safely ignore this email.
+
+If you don't recognize this activity, please secure your account immediately:
+1. Change your password
+2. Review authorized applications
+3. Enable 2FA
+
+Thank you,
+GitHub Security Team`,
+                unread: true
+            },
+            {
+                id: 2,
+                from: "Stripe Payments",
+                fromEmail: "notifications@stripe.com",
+                subject: "Receipt for your payment",
+                preview: "Your payment of $49.99 to ShadowMail Pro has been processed",
+                time: "9:45 AM",
+                date: "Today",
+                content: `Payment Confirmation
+                
+Thank you for your purchase!
+
+Invoice: INV-2024-00123
+Date: Today, 9:45 AM
+Amount: $49.99
+Service: ShadowMail Pro - Annual Plan
+
+Payment Method:
+•••• •••• •••• 4242 (Visa)
+Status: Completed
+
+This receipt confirms your subscription to ShadowMail Pro for 1 year.
+
+For questions, contact support@shadowmail.com
+
+Thank you for choosing ShadowMail!`,
+                unread: false
+            },
+            {
+                id: 3,
+                from: "Facebook",
+                fromEmail: "security@facebook.com",
+                subject: "Your login code is 583921",
+                preview: "Use this code to complete your login: 583921",
+                time: "Yesterday",
+                date: "Nov 15",
+                content: `Facebook Login Code: 583921
+
+Hi,
+
+You requested a login code for your Facebook account.
+
+Enter this code in the login screen to continue:
+
+Code: 583921
+Expires in: 10 minutes
+
+If you didn't request this code, someone might be trying to access your account. Don't share this code with anyone.
+
+Thanks,
+Facebook Security Team`,
+                unread: true
+            },
+            {
+                id: 4,
+                from: "Amazon",
+                fromEmail: "order-update@amazon.com",
+                subject: "Your order has shipped!",
+                preview: "Good news! Your order #113-9876543-1234567 has shipped",
+                time: "Nov 14",
+                date: "2 days ago",
+                content: `Your Amazon Order Has Shipped!
+
+Order #113-9876543-1234567
+Estimated delivery: Monday, Nov 20
+
+Items shipped:
+1x Logitech MX Master 3S Wireless Mouse
+1x USB-C Charging Cable
+
+Shipping carrier: UPS
+Tracking number: 1Z999AA1234567890
+Track your package: https://www.ups.com/track
+
+We hope to see you again soon!
+Amazon.com`,
+                unread: false
+            }
+        ];
+
+        // DOM Elements
+        const usernameInput = document.getElementById('usernameInput');
+        const domainSelect = document.getElementById('domainSelect');
+        const generateBtn = document.getElementById('generateBtn');
+        const generatedEmail = document.getElementById('generatedEmail');
+        const currentEmail = document.getElementById('currentEmail');
+        const copyBtn = document.getElementById('copyBtn');
+        const emailList = document.getElementById('emailList');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const emailCount = document.getElementById('emailCount');
+        const expiryTimer = document.getElementById('expiryTimer');
+        const emailSubject = document.getElementById('emailSubject');
+        const emailFrom = document.getElementById('emailFrom');
+        const emailDate = document.getElementById('emailDate');
+        const emailContent = document.getElementById('emailContent');
+
+        // State
+        let currentEmailAddress = 'shadowuser@shadowmail.com';
+        let emailCounter = 0;
+        let timerInterval;
+
+        // Initialize
+        function init() {
+            updateEmailList();
+            startExpiryTimer();
+            generateRandomEmails();
+            
+            // Set initial email count
+            emailCount.textContent = sampleEmails.length;
+        }
+
+        // Generate email address
+        function generateEmail() {
+            let username = usernameInput.value.trim();
+            if (!username) {
+                username = 'user' + Math.floor(Math.random() * 10000);
+                usernameInput.value = username;
+            }
+            
+            const domain = domainSelect.value;
+            currentEmailAddress = username + domain;
+            generatedEmail.textContent = currentEmailAddress;
+            currentEmail.textContent = currentEmailAddress;
+            
+            // Show notification
+            showNotification('Email generated successfully!', 'success');
+            
+            // Generate some random emails
+            setTimeout(() => {
+                generateRandomEmails();
+            }, 1000);
+        }
+
+        // Update email list
+        function updateEmailList() {
+            emailList.innerHTML = '';
+            
+            sampleEmails.forEach(email => {
+                const emailItem = document.createElement('div');
+                emailItem.className = `email-item ${email.unread ? 'unread' : ''}`;
+                emailItem.innerHTML = `
+                    <div class="email-sender">
+                        <span>${email.from}</span>
+                        <span class="email-time">${email.time}</span>
+                    </div>
+                    <div class="email-subject">${email.subject}</div>
+                    <div class="email-preview">${email.preview}</div>
+                `;
+                
+                emailItem.addEventListener('click', () => {
+                    // Mark as read
+                    email.unread = false;
+                    emailItem.classList.remove('unread');
+                    
+                    // Update email viewer
+                    emailSubject.textContent = email.subject;
+                    emailFrom.textContent = `From: ${email.fromEmail}`;
+                    emailDate.textContent = `${email.date}, ${email.time}`;
+                    emailContent.textContent = email.content;
+                    
+                    // Update counter
+                    updateUnreadCount();
+                });
+                
+                emailList.appendChild(emailItem);
+            });
+            
+            updateUnreadCount();
+        }
+
+        // Update unread count
+        function updateUnreadCount() {
+            const unreadCount = sampleEmails.filter(email => email.unread).length;
+            emailCount.textContent = sampleEmails.length;
+            
+            // Update badge if needed
+            if (unreadCount > 0) {
+                document.title = `(${unreadCount}) ShadowMail`;
+            } else {
+                document.title = 'ShadowMail';
+            }
+        }
+
+        // Generate random emails
+        function generateRandomEmails() {
+            const domains = ['gmail.com', 'outlook.com', 'yahoo.com', 'company.com'];
+            const subjects = [
+                'Welcome to our service!',
+                'Password reset requested',
+                'Your invoice #INV-2024',
+                'Security alert: New device login',
+                'Confirm your email address',
+                'Weekly newsletter'
+            ];
+            const senders = ['Support Team', 'Security Alert', 'Billing Department', 'Newsletter'];
+            
+            // Add a random email
+            const newEmail = {
+                id: sampleEmails.length + 1,
+                from: senders[Math.floor(Math.random() * senders.length)],
+                fromEmail: `no-reply@${domains[Math.floor(Math.random() * domains.length)]}`,
+                subject: subjects[Math.floor(Math.random() * subjects.length)],
+                preview: 'This is a randomly generated email for demonstration purposes...',
+                time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                date: 'Just now',
+                content: `This is a randomly generated email for demonstration purposes.\n\nYour temporary email address is working correctly!\n\nEmail: ${currentEmailAddress}\nTime: ${new Date().toLocaleString()}\n\nThis is an automated message.`,
+                unread: true
+            };
+            
+            sampleEmails.unshift(newEmail);
+            updateEmailList();
+            
+            // Show notification
+            showNotification('New email received!', 'info');
+        }
+
+        // Start expiry timer
+        function startExpiryTimer() {
+            let hours = 24;
+            let minutes = 0;
+            let seconds = 0;
+            
+            clearInterval(timerInterval);
+            
+            timerInterval = setInterval(() => {
+                seconds--;
+                if (seconds < 0) {
+                    seconds = 59;
+                    minutes--;
+                    if (minutes < 0) {
+                        minutes = 59;
+                        hours--;
+                        if (hours < 0) {
+                            clearInterval(timerInterval);
+                            showNotification('Email address expired! Generate a new one.', 'warning');
+                            return;
+                        }
+                    }
+                }
+                
+                expiryTimer.textContent = 
+                    `${hours.toString().padStart(2, '0')}:` +
+                    `${minutes.toString().padStart(2, '0')}:` +
+                    `${seconds.toString().padStart(2, '0')}`;
+                    
+                // Update active time
+                document.getElementById('activeTime').textContent = 
+                    `${24 - hours}h ${59 - minutes}m`;
+                    
+            }, 1000);
+        }
+
+        // Copy email to clipboard
+        function copyEmail() {
+            navigator.clipboard.writeText(currentEmailAddress)
+                .then(() => {
+                    copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    showNotification('Email copied to clipboard!', 'success');
+                    
+                    setTimeout(() => {
+                        copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy Email';
+                    }, 2000);
+                })
+                .catch(err => {
+                    showNotification('Failed to copy email', 'error');
+                    console.error('Copy failed:', err);
+                });
+        }
+
+        // Show notification
+        function showNotification(message, type) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#0fce7c' : type === 'error' ? '#ff4757' : '#3498db'};
+                color: white;
+                padding: 15px 25px;
+                border-radius: 8px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+            
+            // Add CSS for animations
+            if (!document.querySelector('#notification-styles')) {
+                const style = document.createElement('style');
+                style.id = 'notification-styles';
+                style.textContent = `
+                    @keyframes slideIn {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                    @keyframes slideOut {
+                        from { transform: translateX(0); opacity: 1; }
+                        to { transform: translateX(100%); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+
+        // Event Listeners
+        generateBtn.addEventListener('click', generateEmail);
+        copyBtn.addEventListener('click', copyEmail);
+        refreshBtn.addEventListener('click', () => {
+            refreshBtn.classList.add('rotating');
+            generateRandomEmails();
+            showNotification('Inbox refreshed!', 'info');
+            
+            setTimeout(() => {
+                refreshBtn.classList.remove('rotating');
+            }, 1000);
+        });
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', init);
+
+        // Add CSS for rotating animation
+        const style = document.createElement('style');
+        style.textContent = `
+            .rotating {
+                animation: rotate 0.5s linear;
+            }
+            @keyframes rotate {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Auto-generate emails periodically
+        setInterval(() => {
+            if (Math.random() > 0.7) { // 30% chance every 30 seconds
+                generateRandomEmails();
+            }
+        }, 30000);
+    </script>
+</body>
+</html>
